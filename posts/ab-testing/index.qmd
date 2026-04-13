@@ -1,14 +1,16 @@
 ---
 title: A/B Testing a Call to Action
 subtitle: "Simulating Key Ideas from Classical Frequentist Statistics"
-author: "Riley"
+description: "A comprehensive simulation study using Python to explore the statistical foundations of A/B testing, covering the Law of Large Numbers, Central Limit Theorem, and the risks of data peeking."
+author: "Riley Li"
 date: today
 format:
   html:
     toc: true
     code-fold: false
-    fig-width: 9
-    fig-height: 5
+    fig-width: 7
+    fig-height: 4
+    fig-align: center
 execute:
   warning: false
   message: false

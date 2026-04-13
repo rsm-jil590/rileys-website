@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Riley">
+<meta name="author" content="Riley Li">
 <meta name="dcterms.date" content="2026-04-12">
+<meta name="description" content="A comprehensive simulation study using Python to explore the statistical foundations of A/B testing, covering the Law of Large Numbers, Central Limit Theorem, and the risks of data peeking.">
 
 <title>A/B Testing a Call to Action – Riley (Jiarui) Li</title>
 <style>
@@ -209,6 +210,11 @@ window.Quarto = {
 <p class="subtitle lead">Simulating Key Ideas from Classical Frequentist Statistics</p>
 </div>
 
+<div>
+  <div class="description">
+    A comprehensive simulation study using Python to explore the statistical foundations of A/B testing, covering the Law of Large Numbers, Central Limit Theorem, and the risks of data peeking.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -216,7 +222,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Riley </p>
+             <p>Riley Li </p>
           </div>
   </div>
     
@@ -263,7 +269,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="simulating-data">Simulating Data</h2>
 <p>In a real experiment we would not know the true values of <span class="math inline">\(\pi_A\)</span> and <span class="math inline">\(\pi_B\)</span> — that is the whole point of running the test. But for the purposes of this exercise, we set the true values ourselves. This lets us study how our estimator behaves when we know exactly what the right answer is.</p>
 <p>We set <span class="math inline">\(\pi_A = 0.22\)</span> and <span class="math inline">\(\pi_B = 0.18\)</span>, so the true difference is <span class="math inline">\(\theta = 0.04\)</span>. We then simulate 1,000 Bernoulli draws for each group — as if 2,000 visitors arrived at our site, half randomly assigned to each CTA.</p>
-<div id="24c0dc43" class="cell" data-execution_count="2">
+<div id="471f63c1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pi_A <span class="op">=</span> <span class="fl">0.22</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pi_B <span class="op">=</span> <span class="fl">0.18</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>theta_true <span class="op">=</span> pi_A <span class="op">-</span> pi_B</span>
@@ -291,11 +297,11 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <h2 class="anchored" data-anchor-id="the-law-of-large-numbers">The Law of Large Numbers</h2>
 <p>The <strong>Law of Large Numbers</strong> (LLN) tells us that as the sample size grows, the sample mean converges to the population mean. Applied to our problem: as more visitors accumulate in each group, <span class="math inline">\(\hat\pi_A\)</span> will get closer and closer to <span class="math inline">\(\pi_A\)</span>, and therefore <span class="math inline">\(\hat\theta\)</span> will get closer and closer to the true <span class="math inline">\(\theta = 0.04\)</span>. This is what gives us confidence in our estimator in the first place — given enough data, it will eventually find the right answer.</p>
 <p>We can demonstrate this visually. For each observation <span class="math inline">\(i = 1, 2, \ldots, 1000\)</span>, we compute the element-wise difference between the CTA A and CTA B draws, then track the running mean of those differences as <span class="math inline">\(i\)</span> grows.</p>
-<div id="0fa251b6" class="cell" data-execution_count="3">
+<div id="faa0936f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> data_A <span class="op">-</span> data_B</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cumulative_avg <span class="op">=</span> np.cumsum(diffs) <span class="op">/</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="fe3a5bcc" class="cell" data-execution_count="4">
+<div id="739ed5df" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -310,7 +316,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <h2 class="anchored" data-anchor-id="bootstrap-standard-errors">Bootstrap Standard Errors</h2>
 <p>The LLN tells us our estimator will eventually be right. But with a fixed sample — say, 1,000 visitors per group — how precise is it? We need more than a point estimate; we need a <strong>confidence interval</strong> that communicates our uncertainty.</p>
 <p>One way to get there is the <strong>bootstrap</strong>. The idea is elegant: instead of deriving a formula for the variability of <span class="math inline">\(\hat\theta\)</span>, we let the data speak for themselves. We treat our observed sample as a stand-in for the population, and repeatedly resample from it (with replacement) to simulate what would happen if we ran the experiment many times. The spread of the resulting estimates tells us how variable <span class="math inline">\(\hat\theta\)</span> is.</p>
-<div id="4e17f7ae" class="cell" data-execution_count="5">
+<div id="0b5265f6" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_boot <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>boot_thetas <span class="op">=</span> np.zeros(n_boot)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -322,7 +328,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>se_boot <span class="op">=</span> boot_thetas.std()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We compare the bootstrapped standard error to the closed-form analytical formula. For the difference in means of two independent Bernoulli samples: <span class="math display">\[SE(\hat\theta) = \sqrt{\frac{\hat\pi_A(1 - \hat\pi_A)}{n_A} + \frac{\hat\pi_B(1 - \hat\pi_B)}{n_B}}\]</span></p>
-<div id="a087c2f3" class="cell" data-execution_count="6">
+<div id="334062db" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>se_analytical <span class="op">=</span> np.sqrt(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    pi_hat_A <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> pi_hat_A) <span class="op">/</span> n <span class="op">+</span> pi_hat_B <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> pi_hat_B) <span class="op">/</span> n</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -372,7 +378,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 </div>
 </div>
 <p>The bootstrap SE (0.0177) and the analytical SE (0.0178) are nearly identical — reassuring evidence that the bootstrap is working correctly. Using the bootstrap SE, our 95% confidence interval for <span class="math inline">\(\theta\)</span> is roughly <strong>[0.003, 0.073]</strong>. The interval is entirely above zero, suggesting CTA A has a higher sign-up rate, though the true difference could be anywhere from negligibly small to about 7 percentage points.</p>
-<div id="ac11efd9" class="cell" data-execution_count="7">
+<div id="42250a0b" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -387,7 +393,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <p>We now understand that <span class="math inline">\(\hat\theta\)</span> will converge to the truth (LLN) and that we can estimate its variability (bootstrap). But to do formal hypothesis testing, we need to know the <em>shape</em> of <span class="math inline">\(\hat\theta\)</span>’s sampling distribution — not just its mean and spread.</p>
 <p>The <strong>Central Limit Theorem</strong> (CLT) provides the answer: regardless of the shape of the underlying population distribution, the sampling distribution of the sample mean becomes approximately <strong>Normal</strong> as the sample size grows. Since <span class="math inline">\(\hat\theta\)</span> is a difference of two sample means, the same applies here.</p>
 <p>We demonstrate this by repeating the experiment 1,000 times for each of four sample sizes <span class="math inline">\(n \in \{25, 50, 100, 500\}\)</span> and plotting the distribution of the resulting <span class="math inline">\(\hat\theta\)</span> values.</p>
-<div id="39280d5a" class="cell" data-execution_count="8">
+<div id="c007473a" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -409,7 +415,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <p>The CLT tells us that <span class="math inline">\(\hat\theta\)</span> is approximately Normal in large samples. Under <span class="math inline">\(H_0\)</span>, the mean of that distribution is 0. To figure out how extreme our observed <span class="math inline">\(\hat\theta\)</span> is, we standardize it: <span class="math display">\[z = \frac{\hat\theta - 0}{SE(\hat\theta)}\]</span></p>
 <p>This works for three reasons. First, by the CLT, <span class="math inline">\(\hat\theta\)</span> is approximately Normal. Second, under <span class="math inline">\(H_0\)</span>, it is centered at zero. Third, dividing a Normal random variable by its standard deviation produces a standard Normal <span class="math inline">\(N(0,1)\)</span>. So <span class="math inline">\(z \;\dot\sim\; N(0,1)\)</span> under the null, and we know exactly how big <span class="math inline">\(z\)</span> would need to be to be considered surprising.</p>
 <p>This procedure is sometimes called a <strong>t-test</strong>, but that label is slightly imprecise in our setting. A true t-distribution arises when the underlying data are Normal <em>and</em> the variance is unknown — the ratio of the estimate to its estimated SE then follows an exact t-distribution. Here, our data are Bernoulli (not Normal), so there is no exact result; we rely on the CLT for approximate Normality. What we are doing is closer to a <strong>z-test</strong>. For large samples the t-distribution and the standard Normal are nearly identical, so the distinction has no practical consequence — but it matters conceptually.</p>
-<div id="4ffffbce" class="cell" data-execution_count="9">
+<div id="86ac949f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>z_stat <span class="op">=</span> theta_hat <span class="op">/</span> se_analytical</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> stats.norm.cdf(<span class="bu">abs</span>(z_stat)))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -463,7 +469,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <li>Therefore <span class="math inline">\(\beta_1 = \pi_A - \pi_B = \theta\)</span></li>
 </ol>
 <p>In other words, <span class="math inline">\(\hat\beta_1\)</span> is numerically identical to <span class="math inline">\(\hat\theta\)</span>.</p>
-<div id="d39a2c2f" class="cell" data-execution_count="10">
+<div id="f20c3eb6" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.concatenate([data_A, data_B])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.concatenate([np.ones(n), np.zeros(n)])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df_reg <span class="op">=</span> pd.DataFrame({<span class="st">'Y'</span>: Y, <span class="st">'D'</span>: D})</span>
@@ -521,7 +527,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 <p>So far, everything has gone smoothly. We ran our experiment, waited for the data to come in, and conducted a single test. But in practice, patience is in short supply. What if we checked the results along the way — say, after every 100 new visitors per group — and stopped the experiment the moment one of those interim tests came back significant?</p>
 <p>This practice, called <strong>peeking</strong>, is a serious problem under classical frequentist statistics. A single test at <span class="math inline">\(\alpha = 0.05\)</span> has a 5% chance of a false positive — rejecting <span class="math inline">\(H_0\)</span> even when it is true. But each additional peek is another opportunity to get unlucky. Across multiple tests on accumulating data, the probability of at least one false rejection climbs far above 5%.</p>
 <p>We can demonstrate this with a simulation. We set <span class="math inline">\(\pi_A = \pi_B = 0.20\)</span> — the null is <em>true</em>, there is no difference between the CTAs — and simulate 10,000 experiments. In each experiment, we peek after every 100 observations per group (at <span class="math inline">\(n = 100, 200, \ldots, 1000\)</span>) and flag the experiment as a false positive if any of the 10 interim tests reaches <span class="math inline">\(p &lt; 0.05\)</span>.</p>
-<div id="7d4c5c65" class="cell" data-execution_count="11">
+<div id="08991042" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pi_null <span class="op">=</span> <span class="fl">0.20</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n_total <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>peek_points <span class="op">=</span> np.arange(<span class="dv">100</span>, n_total <span class="op">+</span> <span class="dv">1</span>, <span class="dv">100</span>)</span>
@@ -553,7 +559,7 @@ Estimated difference θ̂:        0.038  (true: 0.04000000000000001)</code></pre
 Empirical false positive rate:  19.9%  (4.0x inflation)</code></pre>
 </div>
 </div>
-<div id="7e3a6544" class="cell" data-execution_count="12">
+<div id="b1b45136" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

@@ -80,9 +80,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -205,35 +205,27 @@ window.Quarto = {
 
 
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1775977200000" data-listing-file-modified-sort="1776042171393" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2030">
-<div class="thumbnail"><a href="./posts/ab-testing/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ab-testing/index.html" class="no-external">A/B Testing a Call to Action</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ab-testing/index.html" class="no-external">Simulating Key Ideas from Classical Frequentist Statistics</a>
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1775977200000" data-listing-file-modified-sort="1776059861620" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3229">
+<a href="./posts/ab-testing/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="posts/ab-testing/index_files/figure-html/cell-5-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+A/B Testing a Call to Action
+</h5>
+<div class="listing-reading-time card-text text-muted">17 min</div>
+<div class="card-text listing-description delink">
+<p>A comprehensive simulation study using Python to explore the statistical foundations of A/B testing, covering the Law of Large Numbers, Central Limit Theorem, and the risks…</p>
 </div>
-<div class="delink listing-description"><a href="./posts/ab-testing/index.html" class="no-external">
-Write a short introduction for the reader that sets the scene. Cover the following points in your own words:
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/ab-testing/index.html" class="no-external">
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 12, 2026
 </div>
-<div class="listing-author">
-Riley (Jiarui) Li
 </div>
-</a>
 </div>
+</div></a>
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
