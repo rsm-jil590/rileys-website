@@ -1,0 +1,16 @@
+---
+title: "Resume"
+description: "Riley Li's Professional Experience and Education"
+---
+
+# Personal Resume
+
+Feel free to use the link to download my resume
+
+<a class="btn btn-primary" href="files/resume.pdf" target="_blank">
+  <i class="bi bi-download"></i> download resume
+</a>
+
+<hr>
+
+{{< pdf files/resume.pdf width=100% height=800 >}}
