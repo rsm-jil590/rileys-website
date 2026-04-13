@@ -2,47 +2,56 @@
 # index.qmd
 ---
 
-::: {.hero-section}
+<div class="hero-section">
 <div class="hero-content">
 <img src="files/profile_pic.jpg" class="profile-img">
 <h1>Hello, I'm Riley Li</h1>
 <h2>MSBA Candidate</h2>
 </div>
-:::
+</div>
 
-::: {.main-content}
+<div class="main-content">
 
 <div class="welcome-text">
 <h3>Welcome To My Site</h3>
 <p>I'm Riley Li, a Business Analytics graduate student at Rady School of Management, UC San Diego with 5+ years of experience in data-driven risk management and business analytics. I specialize in using data to drive business decisions—building dashboards, developing analytical models, and uncovering insights that improve efficiency, reduce costs, and support strategic growth.</p>
 </div>
 
-::: {.social-links}
-[<i class="bi bi-envelope"></i>](mailto:jil590@ucsd.edu){title="Email"}
-[<i class="bi bi-linkedin"></i>](https://www.linkedin.com/in/riley-li-40719a171/){title="LinkedIn"}
-:::
+<div class="social-links">
+<a href="mailto:jil590@ucsd.edu" title="Email"><i class="bi bi-envelope"></i></a>
+<a href="https://www.linkedin.com/in/riley-li-40719a171/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+</div>
 
 <hr class="skill-separator">
 
 <div class="skills-grid">
 <div class="skill-item">
 <span class="skill-name">Python</span>
-<div class="skill-bar"><div class="skill-progress" style="width: 90%;"></div></div>
+<div class="skill-bar">
+<div class="skill-progress" style="width: 90%;"></div>
+</div>
 </div>
 
 <div class="skill-item">
 <span class="skill-name">SQL</span>
-<div class="skill-bar"><div class="skill-progress" style="width: 95%;"></div></div>
+<div class="skill-bar">
+<div class="skill-progress" style="width: 95%;"></div>
+</div>
 </div>
 
 <div class="skill-item">
 <span class="skill-name">Communication</span>
-<div class="skill-bar"><div class="skill-progress" style="width: 95%;"></div></div>
+<div class="skill-bar">
+<div class="skill-progress" style="width: 95%;"></div>
+</div>
 </div>
 
 <div class="skill-item">
 <span class="skill-name">Data Visualization (QuickSight)</span>
-<div class="skill-bar"><div class="skill-progress" style="width: 85%;"></div></div>
+<div class="skill-bar">
+<div class="skill-progress" style="width: 85%;"></div>
 </div>
 </div>
-:::
+</div>
+
+</div>

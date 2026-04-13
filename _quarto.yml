@@ -14,8 +14,8 @@ website:
         href: resume.qmd
       - href: projects.qmd
         text: Projects
-      - text: Blog
-        href: blog.qmd
+      - href: blog.qmd
+        text: Blog
 format:
   html:
     theme: cosmo

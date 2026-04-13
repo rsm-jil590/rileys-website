@@ -1,6 +1,14 @@
 [
   {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/ab-testing/index.html"
+    ]
+  },
+  {
     "listing": "/projects.html",
-    "items": []
+    "items": [
+      "/projects/project1/index.html"
+    ]
   }
 ]
