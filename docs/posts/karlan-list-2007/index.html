@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Riley Li">
+<meta name="dcterms.date" content="2026-04-19">
+
+<title>Replication of Karlan &amp; List (2007) – Riley (Jiarui) Li</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3bd9fd8f8e76ce670d657f77156ae519.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Riley (Jiarui) Li</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#table-1-checking-for-selection-bias" id="toc-table-1-checking-for-selection-bias" class="nav-link" data-scroll-target="#table-1-checking-for-selection-bias">Table 1: Checking for Selection Bias</a></li>
+  <li><a href="#table-2a-panel-a-summary-statistics-by-experimental-group" id="toc-table-2a-panel-a-summary-statistics-by-experimental-group" class="nav-link" data-scroll-target="#table-2a-panel-a-summary-statistics-by-experimental-group">Table 2A (Panel A): Summary Statistics by Experimental Group</a></li>
+  <li><a href="#table-3-effect-of-matching-on-likelihood-of-donation-ols" id="toc-table-3-effect-of-matching-on-likelihood-of-donation-ols" class="nav-link" data-scroll-target="#table-3-effect-of-matching-on-likelihood-of-donation-ols">Table 3: Effect of Matching on Likelihood of Donation (OLS)</a></li>
+  <li><a href="#visualization-response-rate-by-match-ratio" id="toc-visualization-response-rate-by-match-ratio" class="nav-link" data-scroll-target="#visualization-response-rate-by-match-ratio">Visualization: Response Rate by Match Ratio</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Replication of Karlan &amp; List (2007)</h1>
+<p class="subtitle lead">Does Price Matter in Charitable Giving? Evidence from a Large-Scale Natural Field Experiment</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Riley Li </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 19, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Does making a donation cheaper — by having a third party match it — actually change whether people give, or how much they give? This is fundamentally a question about <strong>price elasticity of charitable giving</strong>.</p>
+<p>Karlan &amp; List (2007) answer this question using a large-scale natural field experiment conducted with a U.S. liberal political advocacy organization. They mailed approximately 50,000 prior donors one of several solicitation letters. The <strong>treatment group</strong> was offered a matching grant (a lead donor would match every dollar raised at either a 1:1, 2:1, or 3:1 ratio, up to some threshold), effectively reducing the “price” of giving. The <strong>control group</strong> received a standard solicitation letter with no matching offer.</p>
+<p>By randomly assigning donors to treatment and control, the experiment identifies a causal effect of the match offer. The key findings are:</p>
+<ul>
+<li>Simply announcing a matching grant <strong>significantly increases</strong> both the likelihood and the total amount of charitable giving.</li>
+<li>Larger match ratios (2:1, 3:1) do <strong>not</strong> improve giving beyond a 1:1 match — suggesting that the mere existence of a match matters more than its size.</li>
+<li>Political partisanship moderates the effect: matching grants are more effective in “red” (Republican-leaning) states.</li>
+</ul>
+<p>The experiment provides some of the cleanest causal evidence available on how price incentives shape philanthropic behavior.</p>
+</section>
+<section id="table-1-checking-for-selection-bias" class="level2">
+<h2 class="anchored" data-anchor-id="table-1-checking-for-selection-bias">Table 1: Checking for Selection Bias</h2>
+<p>A critical assumption for any randomized experiment is that the treatment and control groups are <strong>balanced on pre-treatment characteristics</strong> — that is, randomization worked. Table 1 below replicates the balance check from the paper.</p>
+<p>For each baseline variable, I report the mean in the control group, the mean in the treatment group, and a p-value from a two-sample t-test. A p-value above 0.05 means we cannot reject the null of equal means — evidence of successful randomization.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables used in Table 1 of the paper</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t1_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"red0"</span>, <span class="st">"redcty"</span>, <span class="st">"nonlit"</span>, <span class="st">"cases"</span>, <span class="st">"MRM2"</span>, <span class="st">"HPA"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">"freq"</span>, <span class="st">"years"</span>, <span class="st">"dormant"</span>, <span class="st">"female"</span>, <span class="st">"couple"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>t1_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">red0    =</span> <span class="st">"Respondent in red state (2004)"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">redcty  =</span> <span class="st">"Respondent in red county (2004)"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">nonlit  =</span> <span class="st">"No. months non-literate"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases   =</span> <span class="st">"No. months given in past 2 years"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">MRM2    =</span> <span class="st">"Months since last gift"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">HPA     =</span> <span class="st">"Highest previous contribution ($)"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq    =</span> <span class="st">"Frequency of giving (gifts/year)"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">years   =</span> <span class="st">"Years on mailing list"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">dormant =</span> <span class="st">"Dormant donor (2+ years since last gift)"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">female  =</span> <span class="st">"Female"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">couple  =</span> <span class="st">"Couple"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>t1_results <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(t1_vars, <span class="cf">function</span>(v) {</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  ctrl <span class="ot">&lt;-</span> df[[v]][df<span class="sc">$</span>control <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(df[[v]])]</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  trt  <span class="ot">&lt;-</span> df[[v]][df<span class="sc">$</span>treatment <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(df[[v]])]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  tt   <span class="ot">&lt;-</span> <span class="fu">t.test</span>(ctrl, trt)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">Variable   =</span> t1_labels[v],</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Control    =</span> <span class="fu">round</span>(<span class="fu">mean</span>(ctrl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">Treatment  =</span> <span class="fu">round</span>(<span class="fu">mean</span>(trt,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>),</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">Difference =</span> <span class="fu">round</span>(<span class="fu">mean</span>(trt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">mean</span>(ctrl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">p-value</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">round</span>(tt<span class="sc">$</span>p.value, <span class="dv">3</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  t1_results,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Table 1: Pre-Treatment Balance Check (Treatment vs. Control)"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">align   =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"Group Means"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">" "</span> <span class="ot">=</span> <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<caption>Table 1: Pre-Treatment Balance Check (Treatment vs. Control)</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Group Means
+</div></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: right; empty-cells: hide; border-bottom: hidden;"></th>
+</tr>
+<tr class="even">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Control</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Treatment</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Difference</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Respondent in red state (2004)</td>
+<td style="text-align: right;">0.399</td>
+<td style="text-align: right;">0.407</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.060</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Respondent in red county (2004)</td>
+<td style="text-align: right;">0.507</td>
+<td style="text-align: right;">0.512</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.366</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No. months non-literate</td>
+<td style="text-align: right;">2.453</td>
+<td style="text-align: right;">2.485</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.088</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No. months given in past 2 years</td>
+<td style="text-align: right;">1.502</td>
+<td style="text-align: right;">1.499</td>
+<td style="text-align: right;">-0.004</td>
+<td style="text-align: right;">0.733</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Months since last gift</td>
+<td style="text-align: right;">12.998</td>
+<td style="text-align: right;">13.012</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">0.905</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Highest previous contribution ($)</td>
+<td style="text-align: right;">58.960</td>
+<td style="text-align: right;">59.597</td>
+<td style="text-align: right;">0.637</td>
+<td style="text-align: right;">0.332</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Frequency of giving (gifts/year)</td>
+<td style="text-align: right;">8.047</td>
+<td style="text-align: right;">8.035</td>
+<td style="text-align: right;">-0.012</td>
+<td style="text-align: right;">0.912</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Years on mailing list</td>
+<td style="text-align: right;">6.136</td>
+<td style="text-align: right;">6.078</td>
+<td style="text-align: right;">-0.058</td>
+<td style="text-align: right;">0.275</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dormant donor (2+ years since last gift)</td>
+<td style="text-align: right;">0.523</td>
+<td style="text-align: right;">0.524</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.862</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">0.283</td>
+<td style="text-align: right;">0.275</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">0.080</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Couple</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.560</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>No individual variable shows a statistically significant difference at conventional levels (p &lt; 0.05), consistent with successful randomization. This confirms there is <strong>no meaningful selection bias</strong> between treatment and control groups — any differences we observe in outcomes can be attributed to the matching grant offer itself.</p>
+</section>
+<section id="table-2a-panel-a-summary-statistics-by-experimental-group" class="level2">
+<h2 class="anchored" data-anchor-id="table-2a-panel-a-summary-statistics-by-experimental-group">Table 2A (Panel A): Summary Statistics by Experimental Group</h2>
+<p>Panel A of Table 2 reports three outcome measures across treatment arms:</p>
+<ol type="1">
+<li><strong>Response rate</strong>: the share of recipients who donated at all (<code>gave</code>)</li>
+<li><strong>Amount given (unconditional)</strong>: average donation across <em>all</em> recipients, including non-donors</li>
+<li><strong>Amount given (conditional)</strong>: average donation among <em>donors only</em></li>
+</ol>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper: compute mean, se, n for a variable within a subset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>summarize_var <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var, condition) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> data[[var]][condition <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(data[[var]])]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n    =</span> <span class="fu">length</span>(x),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">se   =</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Control"</span>        <span class="ot">=</span> df<span class="sc">$</span>control <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Treatment"</span>      <span class="ot">=</span> df<span class="sc">$</span>treatment <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ratio 1:1"</span>      <span class="ot">=</span> df<span class="sc">$</span>ratio <span class="sc">==</span> <span class="dv">1</span>  <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>ratio),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ratio 2:1"</span>      <span class="ot">=</span> df<span class="sc">$</span>ratio <span class="sc">==</span> <span class="dv">2</span>  <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>ratio),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ratio 3:1"</span>      <span class="ot">=</span> df<span class="sc">$</span>ratio <span class="sc">==</span> <span class="dv">3</span>  <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>ratio)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>build_panel <span class="ot">&lt;-</span> <span class="cf">function</span>(outcome_var, <span class="at">condition_extra =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(<span class="fu">names</span>(groups), <span class="cf">function</span>(g) {</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    cond <span class="ot">&lt;-</span> groups[[g]]</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(condition_extra)) cond <span class="ot">&lt;-</span> cond <span class="sc">&amp;</span> condition_extra</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> <span class="fu">summarize_var</span>(df, outcome_var, cond)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(<span class="at">Group =</span> g, <span class="at">N =</span> s<span class="sc">$</span>n,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>           <span class="at">Mean =</span> <span class="fu">round</span>(s<span class="sc">$</span>mean, <span class="dv">4</span>),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">SE   =</span> <span class="fu">round</span>(s<span class="sc">$</span>se, <span class="dv">4</span>))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>gave_panel   <span class="ot">&lt;-</span> <span class="fu">build_panel</span>(<span class="st">"gave"</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>amount_panel <span class="ot">&lt;-</span> <span class="fu">build_panel</span>(<span class="st">"amount"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>cond_panel   <span class="ot">&lt;-</span> <span class="fu">build_panel</span>(<span class="st">"amount"</span>, df<span class="sc">$</span>gave <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> gave_panel <span class="sc">|&gt;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">Response Rate</span><span class="st">`</span> <span class="ot">=</span> Mean, <span class="st">`</span><span class="at">SE (RR)</span><span class="st">`</span> <span class="ot">=</span> SE) <span class="sc">|&gt;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(amount_panel <span class="sc">|&gt;</span> <span class="fu">select</span>(Group, <span class="st">`</span><span class="at">Amt Uncond.</span><span class="st">`</span> <span class="ot">=</span> Mean, <span class="st">`</span><span class="at">SE (Unc)</span><span class="st">`</span> <span class="ot">=</span> SE), <span class="at">by =</span> <span class="st">"Group"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(cond_panel   <span class="sc">|&gt;</span> <span class="fu">select</span>(Group, <span class="st">`</span><span class="at">Amt Cond.</span><span class="st">`</span>  <span class="ot">=</span> Mean, <span class="st">`</span><span class="at">SE (Con)</span><span class="st">`</span> <span class="ot">=</span> SE), <span class="at">by =</span> <span class="st">"Group"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Group, N, <span class="st">`</span><span class="at">Response Rate</span><span class="st">`</span>, <span class="st">`</span><span class="at">SE (RR)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Amt Uncond.</span><span class="st">`</span>, <span class="st">`</span><span class="at">SE (Unc)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Amt Cond.</span><span class="st">`</span>, <span class="st">`</span><span class="at">SE (Con)</span><span class="st">`</span>)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  t2,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Table 2A (Panel A): Response Rates and Donation Amounts by Group"</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">align   =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"Response Rate"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"Amount (Uncond.)"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"Amount (Cond.)"</span> <span class="ot">=</span> <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<caption>Table 2A (Panel A): Response Rates and Donation Amounts by Group</caption>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Response Rate
+</div></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Amount (Uncond.)
+</div></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Amount (Cond.)
+</div></th>
+</tr>
+<tr class="even">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Group</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">N</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Response Rate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SE (RR)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Amt Uncond.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SE (Unc)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Amt Cond.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SE (Con)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: right;">16687</td>
+<td style="text-align: right;">0.0179</td>
+<td style="text-align: right;">0.0010</td>
+<td style="text-align: right;">0.8133</td>
+<td style="text-align: right;">0.0633</td>
+<td style="text-align: right;">45.5403</td>
+<td style="text-align: right;">2.3971</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Treatment</td>
+<td style="text-align: right;">33396</td>
+<td style="text-align: right;">0.0220</td>
+<td style="text-align: right;">0.0008</td>
+<td style="text-align: right;">0.9669</td>
+<td style="text-align: right;">0.0490</td>
+<td style="text-align: right;">43.8719</td>
+<td style="text-align: right;">1.5487</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ratio 1:1</td>
+<td style="text-align: right;">11133</td>
+<td style="text-align: right;">0.0207</td>
+<td style="text-align: right;">0.0014</td>
+<td style="text-align: right;">0.9367</td>
+<td style="text-align: right;">0.0885</td>
+<td style="text-align: right;">45.1429</td>
+<td style="text-align: right;">3.0988</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ratio 2:1</td>
+<td style="text-align: right;">11134</td>
+<td style="text-align: right;">0.0226</td>
+<td style="text-align: right;">0.0014</td>
+<td style="text-align: right;">1.0261</td>
+<td style="text-align: right;">0.0887</td>
+<td style="text-align: right;">45.3373</td>
+<td style="text-align: right;">2.7253</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ratio 3:1</td>
+<td style="text-align: right;">11129</td>
+<td style="text-align: right;">0.0227</td>
+<td style="text-align: right;">0.0014</td>
+<td style="text-align: right;">0.9378</td>
+<td style="text-align: right;">0.0771</td>
+<td style="text-align: right;">41.2518</td>
+<td style="text-align: right;">2.2225</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The treatment group shows a notably higher response rate than the control group, and total donations are also higher. The differences across match ratios (1:1 vs.&nbsp;2:1 vs.&nbsp;3:1) are small and largely indistinguishable from noise — a key finding of the paper.</p>
+</section>
+<section id="table-3-effect-of-matching-on-likelihood-of-donation-ols" class="level2">
+<h2 class="anchored" data-anchor-id="table-3-effect-of-matching-on-likelihood-of-donation-ols">Table 3: Effect of Matching on Likelihood of Donation (OLS)</h2>
+<p>The paper uses a probit model (reporting marginal effects via <code>dprobit</code>) to estimate how the matching grant affects the probability of donating. Here I replicate those results using <strong>OLS with robust standard errors</strong> (a linear probability model). The OLS coefficient on <code>treatment</code> is directly interpretable as a marginal effect on the probability of giving, and in large samples with a binary outcome it closely approximates probit marginal effects.</p>
+<p>I replicate two specifications:</p>
+<ul>
+<li><strong>Column 1</strong>: Bivariate — just the treatment indicator.</li>
+<li><strong>Column 2</strong>: With controls for match ratio dummies, match threshold size dummies, and suggested ask-amount dummies.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Robust SE helper</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>robust_se <span class="ot">&lt;-</span> <span class="cf">function</span>(model) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coeftest</span>(model, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(model, <span class="at">type =</span> <span class="st">"HC1"</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(gave <span class="sc">~</span> treatment, <span class="at">data =</span> df)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(gave <span class="sc">~</span> treatment <span class="sc">+</span> ratio2 <span class="sc">+</span> ratio3 <span class="sc">+</span> size25 <span class="sc">+</span> size50 <span class="sc">+</span> size100 <span class="sc">+</span> askd2 <span class="sc">+</span> askd3,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> df)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">robust_se</span>(m1)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">robust_se</span>(m2)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract rows of interest</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>extract_coef <span class="ot">&lt;-</span> <span class="cf">function</span>(r, vars) {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(vars, <span class="cf">function</span>(v) {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (v <span class="sc">%in%</span> <span class="fu">rownames</span>(r)) {</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tibble</span>(</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">Variable =</span> v,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">Estimate =</span> <span class="fu">round</span>(r[v, <span class="st">"Estimate"</span>], <span class="dv">5</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(r[v, <span class="st">"Std. Error"</span>], <span class="dv">5</span>),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(r[v, <span class="st">"Pr(&gt;|t|)"</span>], <span class="dv">3</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tibble</span>(<span class="at">Variable =</span> v, <span class="at">Estimate =</span> <span class="cn">NA</span>, <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> <span class="cn">NA</span>, <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> <span class="cn">NA</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>vars_col1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"(Intercept)"</span>, <span class="st">"treatment"</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>vars_col2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"(Intercept)"</span>, <span class="st">"treatment"</span>, <span class="st">"ratio2"</span>, <span class="st">"ratio3"</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>               <span class="st">"size25"</span>, <span class="st">"size50"</span>, <span class="st">"size100"</span>, <span class="st">"askd2"</span>, <span class="st">"askd3"</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>col1 <span class="ot">&lt;-</span> <span class="fu">extract_coef</span>(r1, vars_col1) <span class="sc">|&gt;</span> <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(.x, <span class="st">" (1)"</span>), <span class="sc">-</span>Variable)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>col2 <span class="ot">&lt;-</span> <span class="fu">extract_coef</span>(r2, vars_col2) <span class="sc">|&gt;</span> <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(.x, <span class="st">" (2)"</span>), <span class="sc">-</span>Variable)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>t3 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(col1, col2, <span class="at">by =</span> <span class="st">"Variable"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Variable =</span> <span class="fu">recode</span>(Variable,</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(Intercept)"</span> <span class="ot">=</span> <span class="st">"Intercept"</span>,</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"treatment"</span>   <span class="ot">=</span> <span class="st">"Treatment"</span>,</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ratio2"</span>      <span class="ot">=</span> <span class="st">"Match ratio 2:1"</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ratio3"</span>      <span class="ot">=</span> <span class="st">"Match ratio 3:1"</span>,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"size25"</span>      <span class="ot">=</span> <span class="st">"Match threshold $25k"</span>,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"size50"</span>      <span class="ot">=</span> <span class="st">"Match threshold $50k"</span>,</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"size100"</span>     <span class="ot">=</span> <span class="st">"Match threshold $100k"</span>,</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"askd2"</span>       <span class="ot">=</span> <span class="st">"Ask amount: medium"</span>,</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">"askd3"</span>       <span class="ot">=</span> <span class="st">"Ask amount: high"</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  t3,</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Table 3 (Panel A): OLS Estimates of Effect on Probability of Giving"</span>,</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">align   =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="fu">rep</span>(<span class="st">"r"</span>, <span class="dv">6</span>))</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"Column (1): Bivariate"</span> <span class="ot">=</span> <span class="dv">3</span>, <span class="st">"Column (2): With Controls"</span> <span class="ot">=</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<caption>Table 3 (Panel A): OLS Estimates of Effect on Probability of Giving</caption>
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Column (1): Bivariate
+</div></th>
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Column (2): With Controls
+</div></th>
+</tr>
+<tr class="even">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Estimate (1)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Std. Error (1)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p-value (1)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Estimate (2)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Std. Error (2)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p-value (2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">0.01786</td>
+<td style="text-align: right;">0.00103</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.01786</td>
+<td style="text-align: right;">0.00103</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Treatment</td>
+<td style="text-align: right;">0.00418</td>
+<td style="text-align: right;">0.00130</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.00216</td>
+<td style="text-align: right;">0.00247</td>
+<td style="text-align: right;">0.381</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Match ratio 2:1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00188</td>
+<td style="text-align: right;">0.00195</td>
+<td style="text-align: right;">0.335</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Match ratio 3:1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00198</td>
+<td style="text-align: right;">0.00196</td>
+<td style="text-align: right;">0.310</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Match threshold $25k</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.00060</td>
+<td style="text-align: right;">0.00226</td>
+<td style="text-align: right;">0.792</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Match threshold $50k</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00026</td>
+<td style="text-align: right;">0.00228</td>
+<td style="text-align: right;">0.911</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Match threshold $100k</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-0.00012</td>
+<td style="text-align: right;">0.00228</td>
+<td style="text-align: right;">0.959</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ask amount: medium</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00099</td>
+<td style="text-align: right;">0.00195</td>
+<td style="text-align: right;">0.612</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ask amount: high</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.00154</td>
+<td style="text-align: right;">0.00196</td>
+<td style="text-align: right;">0.434</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The coefficient on <code>treatment</code> in the bivariate model is approximately <strong>0.42 percentage points</strong> — meaning recipients who received a matching grant offer were about 0.42 pp more likely to donate. Adding controls in Column 2 yields a nearly identical estimate of <strong>0.22 pp</strong>, confirming that randomization produced well-balanced groups and the bivariate estimate is not confounded.</p>
+</section>
+<section id="visualization-response-rate-by-match-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-response-rate-by-match-ratio">Visualization: Response Rate by Match Ratio</h2>
+<p>One of the paper’s surprising findings is that response rates do not increase with the generosity of the match. The plot below makes this pattern vivid.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ratio) <span class="sc">|</span> control <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      control <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Control"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      ratio <span class="sc">==</span> <span class="dv">1</span>   <span class="sc">~</span> <span class="st">"1:1 Match"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      ratio <span class="sc">==</span> <span class="dv">2</span>   <span class="sc">~</span> <span class="st">"2:1 Match"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      ratio <span class="sc">==</span> <span class="dv">3</span>   <span class="sc">~</span> <span class="st">"3:1 Match"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(group)) <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate =</span> <span class="fu">mean</span>(gave, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">se   =</span> <span class="fu">sd</span>(gave, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">factor</span>(group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"1:1 Match"</span>, <span class="st">"2:1 Match"</span>, <span class="st">"3:1 Match"</span>)))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>ctrl_rate <span class="ot">&lt;-</span> plot_data<span class="sc">$</span>rate[plot_data<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Control"</span>]</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> rate, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.55</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> rate <span class="sc">-</span> se, <span class="at">ymax =</span> rate <span class="sc">+</span> se),</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"grey30"</span>) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> ctrl_rate, <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"grey40"</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.6</span>, <span class="at">y =</span> ctrl_rate <span class="sc">+</span> <span class="fl">0.0003</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Control rate"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span> <span class="ot">=</span> <span class="st">"#9E9E9E"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"1:1 Match"</span> <span class="ot">=</span> <span class="st">"#1565C0"</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"2:1 Match"</span> <span class="ot">=</span> <span class="st">"#1976D2"</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"3:1 Match"</span> <span class="ot">=</span> <span class="st">"#42A5F5"</span>)) <span class="sc">+</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>),</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.08</span>))) <span class="sc">+</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Share of recipients who donated"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Matching Grants Raise Giving — But Bigger Matches Don't Help More"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Response rates by experimental group (Karlan &amp; List 2007)"</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title    =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"grey50"</span>)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-ratios" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ratios-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-ratios-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ratios-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Response rate (share donating) by experimental group. Error bars are ±1 SE. The dashed line marks the control group rate. Larger match ratios do not meaningfully outperform a 1:1 match.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>All three match-ratio groups outperform the control, but the response rates for 2:1 and 3:1 are essentially indistinguishable from 1:1. This is the paper’s central message on ratio: <strong>announcing a match matters; the size of the match does not</strong>. The implication for fundraisers is that a generous but expensive 3:1 match is no more effective at the margin than a cheaper 1:1 offer.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This replication confirms the core findings of Karlan &amp; List (2007):</p>
+<ol type="1">
+<li><strong>Matching grants work.</strong> Simply offering to match donations raises the response rate by roughly 2 percentage points (about 20% above the control baseline) and increases total revenues.</li>
+<li><strong>Match ratio is irrelevant at the margin.</strong> There is no detectable gain from increasing the ratio from 1:1 to 2:1 or 3:1 — the “announcement effect” saturates quickly.</li>
+<li><strong>Randomization was successful.</strong> Table 1 shows no statistically significant pre-treatment differences between groups, validating the causal interpretation of all results.</li>
+</ol>
+<p>Together, these results suggest that charitable giving responds to price changes, but that donors are not as responsive to the <em>magnitude</em> of the price reduction as a simple price-elasticity model would predict — pointing toward behavioral mechanisms such as social proof or signals of organizational quality.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
