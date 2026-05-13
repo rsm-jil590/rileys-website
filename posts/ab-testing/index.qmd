@@ -268,6 +268,55 @@ The z-statistic is 2.14, and the two-sided p-value is 0.032. Since 0.032 < 0.05,
 
 Interpreting this carefully: the p-value does not say there is a 3.2% chance the null is true. It says that *if* the null were true, we would observe a difference this large or larger only 3.2% of the time by chance alone. We judged that unlikely enough to reject $H_0$.
 
+To make this concrete, the figure below shows the standard normal sampling distribution of the z-statistic under $H_0$. The shaded red regions are the rejection zones at the 5% significance level (anything beyond $|z| > 1.96$). Our observed $z = 2.14$ lands inside the right-hand rejection zone, and the orange tails together represent the two-sided p-value of 0.032: the probability of seeing a result this extreme or more, if the null were true.
+
+```{python}
+#| echo: false
+fig, ax = plt.subplots(figsize=(10, 4.5))
+
+x = np.linspace(-4, 4, 500)
+y = stats.norm.pdf(x)
+
+# Base curve
+ax.plot(x, y, color='steelblue', linewidth=2, label='$N(0, 1)$ under $H_0$')
+
+# Rejection regions at alpha = 0.05 (|z| > 1.96)
+z_crit = 1.96
+x_left  = x[x <= -z_crit]
+x_right = x[x >=  z_crit]
+ax.fill_between(x_left,  stats.norm.pdf(x_left),  color='crimson', alpha=0.25,
+                label=r'Rejection region ($\alpha = 0.05$)')
+ax.fill_between(x_right, stats.norm.pdf(x_right), color='crimson', alpha=0.25)
+
+# P-value tails for observed z
+z_obs = z_stat
+x_p_right = x[x >=  abs(z_obs)]
+x_p_left  = x[x <= -abs(z_obs)]
+ax.fill_between(x_p_right, stats.norm.pdf(x_p_right), color='orange', alpha=0.6,
+                label=f'p-value tails (p = {p_value:.3f})')
+ax.fill_between(x_p_left,  stats.norm.pdf(x_p_left),  color='orange', alpha=0.6)
+
+# Observed z marker
+ax.axvline(z_obs, color='darkgreen', linestyle='--', linewidth=2,
+           label=f'Observed $z$ = {z_obs:.2f}')
+
+# Critical value markers
+ax.axvline( z_crit, color='crimson', linestyle=':', linewidth=1.2, alpha=0.7)
+ax.axvline(-z_crit, color='crimson', linestyle=':', linewidth=1.2, alpha=0.7)
+
+ax.set_xlabel('z-statistic', fontsize=12)
+ax.set_ylabel('Density', fontsize=12)
+ax.set_title('Hypothesis Test: Observed z-Statistic vs. Null Distribution', fontsize=13)
+ax.legend(fontsize=10, loc='upper left')
+ax.grid(True, alpha=0.3)
+ax.set_xlim(-4, 4)
+ax.set_ylim(0, 0.45)
+plt.tight_layout()
+plt.show()
+```
+
+The visual makes the test outcome unambiguous: the observed $z$ falls beyond the critical value, so we reject $H_0$. It also shows why peeking, which we examine in the final section, is so dangerous: every additional check is another chance for random noise to push $z$ into the red zone purely by accident.
+
 
 ## The T-Test as a Regression
 
