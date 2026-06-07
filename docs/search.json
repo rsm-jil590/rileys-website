@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog & Assignments",
-    "section": "",
-    "text": "A/B Testing a Call to Action\n\n18 min\n\nA comprehensive simulation study using Python to explore the statistical foundations of A/B testing, covering the Law of Large Numbers, Central Limit Theorem, and the risks…\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\nDoes Blueprinty’s Software Help Firms Win More Patents?\n\n24 min\n\n\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\nMaxDiff Analysis of MSBA Class Preferences\n\n22 min\n\nA MaxDiff / Best-Worst Scaling analysis of MSBA course preferences using counts, multinomial logit MLE, and Bayesian MNL.\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\nReplication of Karlan & List (2007)\n\n15 min\n\n\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nKey Drivers Analysis: What Actually Moves Satisfaction?\n\n20 min\n\nA customer satisfaction key-driver analysis using Pearson correlations, standardized regression, drop-one usefulness, Shapley values, Johnson relative weights, and random…\n\n\n\nJun 6, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "posts/key-drivers-analysis/index.html",
     "href": "posts/key-drivers-analysis/index.html",
     "title": "Key Drivers Analysis: What Actually Moves Satisfaction?",
@@ -54,6 +47,13 @@
     "title": "Key Drivers Analysis: What Actually Moves Satisfaction?",
     "section": "Further Reading",
     "text": "Further Reading\n\nSawtooth Software: Driver Analysis: How to Do It Badly and Well\nUlrike Groemping: Relative Importance for Linear Regression in R: The Package relaimpo\nEconoscent: Visual Guide to Gradient Boosted Trees (XGBoost)"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog & Assignments",
+    "section": "",
+    "text": "A/B Testing a Call to Action\n\n18 min\n\nA comprehensive simulation study using Python to explore the statistical foundations of A/B testing, covering the Law of Large Numbers, Central Limit Theorem, and the risks…\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\nDoes Blueprinty’s Software Help Firms Win More Patents?\n\n24 min\n\n\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\nMaxDiff Analysis of MSBA Class Preferences\n\n22 min\n\nA MaxDiff / Best-Worst Scaling analysis of MSBA course preferences using counts, multinomial logit MLE, and Bayesian MNL.\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\nReplication of Karlan & List (2007)\n\n15 min\n\n\n\n\n\nJun 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nKey Drivers Analysis: What Actually Moves Satisfaction?\n\n20 min\n\nA customer satisfaction key-driver analysis using Pearson correlations, standardized regression, drop-one usefulness, Shapley values, Johnson relative weights, and random…\n\n\n\nJun 6, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project1/index.html",
@@ -229,5 +229,12 @@
     "title": "My Projects",
     "section": "",
     "text": "My First Analytics Project\n\n\n\n\n\n\nRiley Li\n\n\nDec 20, 2025\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\nHello, I’m Riley Li\n",
+    "section": "",
+    "text": "Hello, I’m Riley Li\n\n\nMSBA Candidate\n\n\n\n\n\n\nWelcome To My Site\n\n\nI’m Riley Li, a Business Analytics graduate student at Rady School of Management, UC San Diego with 5+ years of experience in data-driven risk management and business analytics. I specialize in using data to drive business decisions—building dashboards, developing analytical models, and uncovering insights that improve efficiency, reduce costs, and support strategic growth.\n\n\n\n \n\n\n\n\nPython\n\n\n\n\n\n\n\nSQL\n\n\n\n\n\n\n\nCommunication\n\n\n\n\n\n\n\nData Visualization (QuickSight)"
   }
 ]
