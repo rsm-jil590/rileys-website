@@ -1,0 +1,819 @@
+---
+title: "Key Drivers Analysis: What Actually Moves Satisfaction?"
+subtitle: "Variable importance across correlations, regression, Shapley values, relative weights, and random forests"
+description: "A customer satisfaction key-driver analysis using Pearson correlations, standardized regression, drop-one usefulness, Shapley values, Johnson relative weights, and random forest Gini importance."
+author: "Riley Li"
+date: today
+categories: [Marketing Analytics, Variable Importance, Regression, Random Forest, Shapley Values]
+image: key-drivers-cover.png
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    toc-location: right
+    code-fold: true
+    code-summary: "Show the code"
+    fig-width: 8
+    fig-height: 5
+    fig-align: center
+execute:
+  warning: false
+  message: false
+---
+
+```{python}
+#| label: setup
+#| echo: false
+import itertools
+import math
+import os
+from pathlib import Path
+import warnings
+
+tmp_dir = Path(os.environ.get("TMPDIR", "/tmp")) / "mgta495-mplcache"
+tmp_dir.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", str(tmp_dir))
+
+import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
+import numpy as np
+import pandas as pd
+from IPython.display import Markdown, display
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LinearRegression
+
+warnings.filterwarnings("ignore")
+np.random.seed(495)
+
+COLORS = {
+    "navy": "#2f4254",
+    "gold": "#bd9454",
+    "green": "#5f8d66",
+    "red": "#8b3f3f",
+    "ink": "#25364a",
+    "muted": "#7f7f7f",
+}
+
+plt.rcParams.update({
+    "figure.facecolor": "white",
+    "axes.facecolor": "#fbf7f1",
+    "axes.grid": True,
+    "grid.color": "#ded8ce",
+    "grid.linestyle": "-",
+    "grid.alpha": 0.6,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "axes.edgecolor": "#d8d2c7",
+    "axes.labelcolor": COLORS["ink"],
+    "xtick.color": COLORS["muted"],
+    "ytick.color": COLORS["ink"],
+    "font.family": "DejaVu Sans",
+    "font.size": 11,
+})
+
+df = pd.read_csv("data_for_drivers_analysis.csv")
+
+target = "satisfaction"
+drivers = [
+    "trust",
+    "build",
+    "differs",
+    "easy",
+    "appealing",
+    "rewarding",
+    "popular",
+    "service",
+    "impact",
+]
+
+driver_labels = {
+    "trust": "Trust",
+    "build": "Well built",
+    "differs": "Different",
+    "easy": "Easy to use",
+    "appealing": "Appealing",
+    "rewarding": "Rewarding",
+    "popular": "Popular",
+    "service": "Good service",
+    "impact": "Positive impact",
+}
+
+y = df[target].to_numpy(float)
+X = df[drivers].to_numpy(float)
+p = len(drivers)
+
+
+def fit_r2(cols):
+    if len(cols) == 0:
+        return 0.0
+    model = LinearRegression().fit(X[:, cols], y)
+    return float(model.score(X[:, cols], y))
+
+
+subset_r2 = {}
+for mask in range(1 << p):
+    cols = tuple(i for i in range(p) if mask & (1 << i))
+    subset_r2[cols] = fit_r2(cols)
+
+full_cols = tuple(range(p))
+full_r2 = subset_r2[full_cols]
+
+pearson = np.array([np.corrcoef(X[:, i], y)[0, 1] for i in range(p)])
+
+Xz = (X - X.mean(axis=0)) / X.std(axis=0, ddof=0)
+yz = (y - y.mean()) / y.std(ddof=0)
+std_beta = LinearRegression().fit(Xz, yz).coef_
+
+drop_one = np.zeros(p)
+for i in range(p):
+    reduced = tuple(j for j in range(p) if j != i)
+    drop_one[i] = full_r2 - subset_r2[reduced]
+
+
+def shapley_values():
+    values = np.zeros(p)
+    factorial = math.factorial
+    for i in range(p):
+        others = [j for j in range(p) if j != i]
+        for k in range(p):
+            weight = factorial(k) * factorial(p - k - 1) / factorial(p)
+            for subset in itertools.combinations(others, k):
+                subset = tuple(sorted(subset))
+                with_i = tuple(sorted(subset + (i,)))
+                values[i] += weight * (subset_r2[with_i] - subset_r2[subset])
+    return values
+
+
+shapley = shapley_values()
+
+# Johnson relative weights: decompose the predictor correlation matrix into
+# orthogonal components, then reallocate the linear model R-squared back to
+# the original variables.
+Rxx = np.corrcoef(Xz, rowvar=False)
+rxy = np.corrcoef(Xz, yz, rowvar=False)[:p, p]
+corr_mask = ~np.eye(p, dtype=bool)
+abs_driver_corr = np.abs(Rxx[corr_mask])
+max_corr_indices = np.unravel_index(
+    np.argmax(np.where(np.eye(p), -np.inf, np.abs(Rxx))),
+    Rxx.shape,
+)
+corr_eigenvalues = np.linalg.eigvalsh(Rxx)
+condition_index = np.sqrt(corr_eigenvalues.max() / corr_eigenvalues.min())
+eigenvalues, eigenvectors = np.linalg.eigh(Rxx)
+order = eigenvalues.argsort()[::-1]
+eigenvalues = np.clip(eigenvalues[order], 0, None)
+eigenvectors = eigenvectors[:, order]
+lambda_matrix = eigenvectors @ np.diag(np.sqrt(eigenvalues)) @ eigenvectors.T
+orthogonal_beta = np.linalg.solve(lambda_matrix, rxy)
+johnson = (lambda_matrix ** 2) @ (orthogonal_beta ** 2)
+
+rf = RandomForestClassifier(
+    n_estimators=1000,
+    random_state=495,
+    max_features="sqrt",
+    min_samples_leaf=5,
+)
+rf.fit(X, y.astype(int))
+rf_gini = rf.feature_importances_
+
+importance = pd.DataFrame({
+    "driver": drivers,
+    "Driver": [driver_labels[d] for d in drivers],
+    "Pearson r": pearson,
+    "Std. beta": std_beta,
+    "Drop-one R2": drop_one,
+    "Shapley R2": shapley,
+    "Johnson R2": johnson,
+    "RF Gini": rf_gini,
+})
+
+importance["Drop-one share"] = importance["Drop-one R2"] / importance["Drop-one R2"].sum()
+importance["Shapley share"] = importance["Shapley R2"] / importance["Shapley R2"].sum()
+importance["Johnson share"] = importance["Johnson R2"] / importance["Johnson R2"].sum()
+importance["RF Gini share"] = importance["RF Gini"] / importance["RF Gini"].sum()
+importance["Average rank"] = (
+    importance[["Pearson r", "Std. beta", "Drop-one R2", "Shapley R2", "Johnson R2", "RF Gini"]]
+    .rank(ascending=False)
+    .mean(axis=1)
+)
+
+importance = importance.sort_values("Shapley R2", ascending=False).reset_index(drop=True)
+top3 = importance.head(3)["Driver"].tolist()
+top3_sentence = ", ".join(top3[:-1]) + ", and " + top3[-1]
+data_summary = {
+    "n": len(df),
+    "brands": df["brand"].nunique(),
+    "mean_satisfaction": df[target].mean(),
+    "full_r2": full_r2,
+    "avg_abs_driver_corr": abs_driver_corr.mean(),
+    "max_abs_driver_corr": np.abs(Rxx[max_corr_indices]),
+    "max_corr_pair": (
+        driver_labels[drivers[max_corr_indices[0]]],
+        driver_labels[drivers[max_corr_indices[1]]],
+    ),
+    "condition_index": condition_index,
+}
+```
+
+<style>
+#TOC .collapse {
+  display: block !important;
+  height: auto !important;
+  visibility: visible !important;
+}
+
+.driver-deck {
+  --deck-ink: #2f4254;
+  --deck-gold: #bd9454;
+  --deck-cream: #fbf7f1;
+  --deck-line: #e1d4bd;
+  margin: 1.25rem 0 2.25rem 0;
+  border: 1px solid var(--deck-line);
+  border-radius: 8px;
+  background: var(--deck-cream);
+  color: var(--deck-ink);
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(47, 66, 84, 0.08);
+}
+.driver-deck::before {
+  content: "";
+  display: block;
+  height: 5px;
+  background: linear-gradient(90deg, var(--deck-ink) 0%, var(--deck-gold) 54%, var(--deck-ink) 100%);
+}
+.driver-deck.is-expanded {
+  position: fixed;
+  inset: 2vh 2vw;
+  z-index: 1050;
+  overflow: auto;
+}
+.driver-deck .deck-shell {
+  position: relative;
+  padding: 2.6rem 2rem 1.8rem;
+}
+.driver-deck .deck-expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--deck-line);
+  border-radius: 8px;
+  background: #fffaf2;
+  color: var(--deck-ink);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.driver-deck .deck-expand:hover {
+  background: white;
+}
+.driver-deck .deck-expand::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  background:
+    linear-gradient(currentColor 0 0) left top / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) left top / 2px 8px no-repeat,
+    linear-gradient(currentColor 0 0) right top / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) right top / 2px 8px no-repeat,
+    linear-gradient(currentColor 0 0) left bottom / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) left bottom / 2px 8px no-repeat,
+    linear-gradient(currentColor 0 0) right bottom / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) right bottom / 2px 8px no-repeat;
+}
+.driver-deck .deck-stage {
+  min-height: 470px;
+  display: grid;
+  place-items: center;
+}
+.driver-deck .driver-slide {
+  display: none;
+  width: min(880px, 100%);
+  text-align: center;
+  animation: driverFade 0.28s ease;
+}
+.driver-deck .driver-slide.active {
+  display: block;
+}
+@keyframes driverFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.driver-deck .eyebrow {
+  color: var(--deck-gold);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.driver-deck h2 {
+  margin: 0 0 1.35rem;
+  color: var(--deck-ink);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  line-height: 1.15;
+}
+.driver-deck .slide-note {
+  color: #858585;
+  font-size: 1.02rem;
+  font-style: italic;
+  margin: 1.2rem auto 0;
+  max-width: 760px;
+}
+.rating-card {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 1.35rem 1.6rem 1.55rem;
+  border: 1px solid #ddd6cc;
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.85);
+  box-shadow: 0 6px 16px rgba(47, 66, 84, 0.05);
+}
+.rating-card .brand-name {
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+.rating-track {
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--deck-gold) 0 74%, #e5e2db 74% 100%);
+  position: relative;
+}
+.rating-track::after {
+  content: "";
+  position: absolute;
+  left: 73%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: var(--deck-gold);
+  border: 4px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.rating-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+}
+.rating-stars {
+  color: var(--deck-gold);
+  letter-spacing: 0.14em;
+  font-size: 1.7rem;
+  margin-top: 1rem;
+}
+.rating-stars span {
+  color: #e6ddd0;
+}
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  width: min(660px, 100%);
+  margin: 0 auto;
+}
+.choice-tile {
+  position: relative;
+  border: 1px solid #ddd6cc;
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.8);
+  padding: 1.25rem 0.9rem;
+  min-height: 106px;
+}
+.choice-tile strong {
+  display: block;
+  color: var(--deck-gold);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
+.choice-tile .tile-text {
+  font-family: Georgia, serif;
+  font-size: 1.22rem;
+}
+.stamp {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  transform: rotate(-10deg);
+  box-shadow: 0 8px 18px rgba(47, 66, 84, 0.16);
+}
+.stamp.best {
+  top: -30px;
+  right: -20px;
+  background: #5f8d66;
+}
+.stamp.signal {
+  bottom: -30px;
+  right: 24px;
+  background: #8b3f3f;
+}
+.method-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.method-pill {
+  border: 1px solid #ddd6cc;
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.82);
+  padding: 1rem 0.75rem;
+  min-height: 96px;
+}
+.method-pill strong {
+  display: block;
+  color: var(--deck-gold);
+  margin-bottom: 0.25rem;
+}
+.method-pill span {
+  color: #606060;
+  font-size: 0.9rem;
+}
+.driver-podium {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  align-items: end;
+  gap: 0.7rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.podium-bar {
+  border: 1px solid #ddd6cc;
+  border-radius: 8px 8px 0 0;
+  background: #fffaf2;
+  padding: 1rem 0.6rem;
+  display: grid;
+  place-items: center;
+  color: var(--deck-ink);
+  min-height: 120px;
+}
+.podium-bar.first {
+  min-height: 178px;
+  background: #f7ead5;
+}
+.podium-bar.second {
+  min-height: 150px;
+}
+.podium-bar .rank {
+  color: var(--deck-gold);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+.podium-bar .driver-name {
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+}
+.deck-progress-track {
+  height: 5px;
+  background: #e8e4dc;
+  margin: 0 auto 1.2rem;
+  max-width: 88%;
+}
+.deck-progress-fill {
+  height: 100%;
+  width: 25%;
+  background: linear-gradient(90deg, var(--deck-ink), var(--deck-gold));
+  transition: width 0.2s ease;
+}
+.driver-deck .deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.driver-deck .deck-btn {
+  border: 2px solid var(--deck-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--deck-ink);
+  min-width: 140px;
+  padding: 0.58rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.driver-deck .deck-btn.primary {
+  border-color: var(--deck-gold);
+  background: var(--deck-gold);
+  color: white;
+}
+.driver-deck .deck-btn:disabled {
+  border-color: #c9c9c9;
+  color: #b3b3b3;
+  cursor: not-allowed;
+}
+.driver-deck .deck-count {
+  color: #5f5f5f;
+  min-width: 4rem;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+}
+.driver-deck .deck-restart {
+  display: block;
+  margin: 0.85rem auto 0;
+  border: 0;
+  background: transparent;
+  color: #858585;
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (max-width: 720px) {
+  .driver-deck .deck-shell {
+    padding: 2rem 1rem 1.35rem;
+  }
+  .driver-deck .deck-stage {
+    min-height: 560px;
+  }
+  .choice-grid,
+  .method-row,
+  .driver-podium {
+    grid-template-columns: 1fr;
+  }
+  .stamp {
+    width: 54px;
+    height: 54px;
+    font-size: 0.82rem;
+  }
+  .driver-deck .deck-btn {
+    min-width: 118px;
+  }
+}
+</style>
+
+```{=html}
+<div class="driver-deck" id="driver-deck">
+  <div class="deck-shell">
+    <button class="deck-expand" type="button" aria-label="Toggle expanded view" onclick="driverDeckExpand()"></button>
+    <div class="deck-stage">
+      <section class="driver-slide active">
+        <div class="eyebrow">Once upon a time</div>
+        <h2>The trouble with rating scales</h2>
+        <div class="rating-card">
+          <div class="brand-name">Customer Satisfaction</div>
+          <div class="rating-track"></div>
+          <div class="rating-labels"><span>1</span><span>3</span><span>5</span></div>
+          <div class="rating-stars">****<span>*</span></div>
+        </div>
+        <p class="slide-note">A rating tells us how happy people are. It does not tell us why.</p>
+      </section>
+      <section class="driver-slide">
+        <div class="eyebrow">Every brand has signals</div>
+        <h2>Pick apart the pattern</h2>
+        <div class="choice-grid">
+          <div class="choice-tile"><strong>TRUST</strong><div class="tile-text">Do people believe the brand?</div></div>
+          <div class="choice-tile"><strong>SERVICE</strong><div class="tile-text">Does support feel reliable?</div></div>
+          <div class="choice-tile"><strong>EASY</strong><div class="tile-text">Is the experience frictionless?</div></div>
+          <div class="choice-tile"><strong>IMPACT</strong><div class="tile-text">Does the brand feel meaningful?</div></div>
+        </div>
+        <p class="slide-note">Driver analysis connects those signals to satisfaction.</p>
+      </section>
+      <section class="driver-slide">
+        <div class="eyebrow">Six lenses</div>
+        <h2>Importance is not one number</h2>
+        <div class="method-row">
+          <div class="method-pill"><strong>Pearson</strong><span>simple association</span></div>
+          <div class="method-pill"><strong>Std. beta</strong><span>unique linear effect</span></div>
+          <div class="method-pill"><strong>Drop-one</strong><span>lost fit without a driver</span></div>
+          <div class="method-pill"><strong>Shapley</strong><span>average marginal R2</span></div>
+          <div class="method-pill"><strong>Johnson</strong><span>shared variance reallocated</span></div>
+          <div class="method-pill"><strong>RF Gini</strong><span>nonlinear split importance</span></div>
+        </div>
+        <p class="slide-note">When drivers overlap, the method matters.</p>
+      </section>
+      <section class="driver-slide">
+        <div class="eyebrow">The punchline</div>
+        <h2>Meaning, trust, and service lead</h2>
+        <div class="driver-podium">
+          <div class="podium-bar second"><div><div class="rank">2</div><div class="driver-name">Trust</div></div></div>
+          <div class="podium-bar first"><div><div class="rank">1</div><div class="driver-name">Positive impact</div></div></div>
+          <div class="podium-bar"><div><div class="rank">3</div><div class="driver-name">Good service</div></div></div>
+        </div>
+        <p class="slide-note">Read the table below for the full evidence.</p>
+      </section>
+    </div>
+    <div class="deck-progress-track"><div class="deck-progress-fill" id="driver-deck-fill"></div></div>
+    <div class="deck-controls">
+      <button class="deck-btn" type="button" id="driver-prev" onclick="driverDeckMove(-1)" disabled>Previous</button>
+      <span class="deck-count" id="driver-count">1 / 4</span>
+      <button class="deck-btn primary" type="button" id="driver-next" onclick="driverDeckMove(1)">Next</button>
+    </div>
+    <button class="deck-restart" type="button" onclick="driverDeckRestart()">Restart</button>
+  </div>
+</div>
+```
+
+<script>
+(function() {
+  var current = 0;
+  var deck = document.getElementById("driver-deck");
+  var slides = deck.querySelectorAll(".driver-slide");
+  var total = slides.length;
+  var fill = document.getElementById("driver-deck-fill");
+  var count = document.getElementById("driver-count");
+  var prev = document.getElementById("driver-prev");
+  var next = document.getElementById("driver-next");
+
+  function render() {
+    slides.forEach(function(slide, index) {
+      slide.classList.toggle("active", index === current);
+    });
+    fill.style.width = ((current + 1) / total * 100) + "%";
+    count.textContent = (current + 1) + " / " + total;
+    prev.disabled = current === 0;
+    next.disabled = current === total - 1;
+  }
+
+  window.driverDeckMove = function(delta) {
+    current = Math.max(0, Math.min(total - 1, current + delta));
+    render();
+  };
+
+  window.driverDeckRestart = function() {
+    current = 0;
+    render();
+  };
+
+  window.driverDeckExpand = function() {
+    deck.classList.toggle("is-expanded");
+  };
+})();
+</script>
+
+## Introduction
+
+The assignment asks for a key-driver table for customer satisfaction. The dataset has **`{python} data_summary["n"]` brand-response rows** across **`{python} data_summary["brands"]` brands**. The outcome is `satisfaction`, measured from 1 to 5, and the candidate drivers are nine binary brand perceptions: trust, build quality, difference, ease, appeal, reward, popularity, service, and impact.
+
+The central question is simple: which perceptions are most associated with higher satisfaction? The trick is that the drivers overlap. A brand that is trusted may also be seen as easy, appealing, and good at service. A useful answer therefore needs several views of variable importance, not just one correlation column.
+
+The readings sharpen that point. Sawtooth's driver-analysis webinar frames simple correlation and plain regression as useful but incomplete: correlation gives each attribute credit for all shared variance with satisfaction, while regression gives credit only for the unique slice left after the other attributes are controlled. When survey attributes are correlated because of halo effects, both stories can be distorted. Groemping's *relaimpo* paper gives the statistical background for relative-importance measures such as averaging over orderings, which is the same logic used by the Shapley calculation below. The tree-ensemble video is useful for interpreting the random-forest column: tree methods rank variables by how often and how effectively they improve splits, not by linear coefficients.
+
+Before ranking the drivers, I checked how much the drivers overlap:
+
+```{python}
+#| label: reading-diagnostics
+#| echo: false
+
+diag_table = pd.DataFrame({
+    "Diagnostic": [
+        "Average absolute correlation among drivers",
+        "Largest absolute driver correlation",
+        "Condition index of driver correlation matrix",
+    ],
+    "Value": [
+        f"{data_summary['avg_abs_driver_corr']:.3f}",
+        (
+            f"{data_summary['max_abs_driver_corr']:.3f} "
+            f"({data_summary['max_corr_pair'][0]} / {data_summary['max_corr_pair'][1]})"
+        ),
+        f"{data_summary['condition_index']:.2f}",
+    ],
+})
+
+display(Markdown(diag_table.to_markdown(index=False)))
+```
+
+The average overlap is noticeable, but the condition index is still low. In the language of the Sawtooth reading, this is not an extreme multicollinearity case. Still, the overlap is large enough that I would not rely on correlation or raw regression alone.
+
+```{python}
+#| label: satisfaction-distribution
+#| echo: false
+#| fig-cap: "Distribution of satisfaction ratings in the survey data."
+#| fig-width: 7.5
+#| fig-height: 3.8
+
+counts = df[target].value_counts().sort_index()
+fig, ax = plt.subplots(figsize=(7.5, 3.8))
+bars = ax.bar(
+    counts.index.astype(str),
+    counts.values,
+    color=[COLORS["red"], "#b77a55", COLORS["gold"], COLORS["green"], COLORS["navy"]],
+    edgecolor="white",
+    linewidth=1.2,
+)
+for bar in bars:
+    height = bar.get_height()
+    ax.text(
+        bar.get_x() + bar.get_width() / 2,
+        height + 18,
+        f"{height / counts.sum():.0%}",
+        ha="center",
+        va="bottom",
+        color=COLORS["ink"],
+        fontsize=10,
+    )
+ax.set_xlabel("Satisfaction rating")
+ax.set_ylabel("Number of responses")
+ax.set_title("Most responses cluster around ratings 3 and 4")
+ax.set_ylim(0, counts.max() * 1.16)
+plt.tight_layout()
+plt.show()
+```
+
+## Methods
+
+I calculated the six requested variable-importance measures, but I interpret them in two groups. Pearson correlation and standardized regression coefficients are included because they are familiar diagnostics and part of the assignment. The final ranking leans more heavily on the methods that explicitly divide shared variance: Shapley/AOO, Johnson relative weights, and random forests.
+
+- **Pearson correlation**: the direct bivariate association between each driver and satisfaction. It is easy to explain, but it double-counts shared variance when drivers overlap.
+- **Standardized regression coefficient**: the coefficient from a linear model after standardizing both `satisfaction` and the drivers. It estimates unique linear effects, but can become unstable when unique variance is small.
+- **Drop-one usefulness**: the full model $R^2$ minus the $R^2$ from a model that leaves one driver out. This asks how much fit is lost if a driver disappears.
+- **Shapley value / AOO**: each driver's average marginal contribution to $R^2$ across every possible ordering of the drivers. I implemented this directly by enumerating all driver subsets.
+- **Johnson relative weight**: a decomposition of the linear model $R^2$ that handles correlated predictors by orthogonalizing the driver matrix and then reallocating the explained variance.
+- **Random forest Gini importance**: mean decrease in Gini impurity from a random forest classifier that treats the 1 to 5 satisfaction score as the class label. This is a nonlinear, tree-based check rather than a linear variance decomposition.
+
+The complete linear model explains **`{python} f"{data_summary['full_r2']:.3f}"`** of the variance in satisfaction. That is not a huge $R^2$, but it is enough to compare which drivers carry the most signal.
+
+## Replicated Key-Driver Table
+
+```{python}
+#| label: key-driver-table
+#| echo: false
+
+table = importance[
+    ["Driver", "Pearson r", "Std. beta", "Drop-one R2", "Shapley R2", "Johnson R2", "RF Gini"]
+].copy()
+
+for col in table.columns[1:]:
+    table[col] = table[col].map(lambda value: f"{value:.3f}")
+
+display(Markdown(table.to_markdown(index=False)))
+```
+
+The most consistent top drivers are **`{python} top3_sentence`**. The first two methods, Pearson and standardized beta, answer slightly different questions: Pearson rewards a driver for moving with satisfaction, while standardized beta asks whether it still helps once the other drivers are already in the model. That is why variables such as **Easy to use** and **Appealing** have positive correlations but much smaller unique regression coefficients.
+
+## Comparing Importance Shares
+
+Because drop-one, Shapley, Johnson, and random forest Gini use different scales, the chart below normalizes each method to sum to 100%. This is not meant to replace the table above; it is a reading aid for comparing rankings.
+
+```{python}
+#| label: importance-share-plot
+#| echo: false
+#| fig-cap: "Normalized importance shares by method. Drop-one, Shapley, and Johnson are based on linear-model fit; RF Gini comes from a random forest classifier."
+#| fig-width: 9
+#| fig-height: 5.8
+
+plot_df = importance.sort_values("Shapley share", ascending=True).reset_index(drop=True)
+methods = [
+    ("Drop-one", "Drop-one share", "#8b3f3f"),
+    ("Shapley", "Shapley share", "#2f4254"),
+    ("Johnson", "Johnson share", "#bd9454"),
+    ("RF Gini", "RF Gini share", "#5f8d66"),
+]
+
+y_pos = np.arange(len(plot_df))
+bar_h = 0.18
+offsets = np.linspace(-1.5 * bar_h, 1.5 * bar_h, len(methods))
+
+fig, ax = plt.subplots(figsize=(9, 5.8))
+for (label, col, color), offset in zip(methods, offsets):
+    ax.barh(
+        y_pos + offset,
+        plot_df[col],
+        height=bar_h,
+        label=label,
+        color=color,
+        alpha=0.9,
+    )
+
+ax.set_yticks(y_pos)
+ax.set_yticklabels(plot_df["Driver"])
+ax.xaxis.set_major_formatter(PercentFormatter(1.0))
+ax.set_xlabel("Share of each method's total importance")
+ax.set_title("Positive impact, trust, and service dominate the linear importance measures")
+ax.legend(ncol=4, frameon=False, loc="lower right")
+ax.set_xlim(0, max(plot_df[[m[1] for m in methods]].max()) * 1.22)
+plt.tight_layout()
+plt.show()
+```
+
+## Interpretation
+
+The linear methods point to a clear managerial story: satisfaction is most connected to whether the brand is seen as having a **positive impact**, being **trustworthy**, and providing **good service**. These three drivers take the largest Shapley and Johnson shares, which means they contribute the most to the model's explained variance after accounting for overlap among the predictors.
+
+The reading-informed conclusion is a little sharper than simply "look at the biggest number." Pearson correlation says many drivers move with satisfaction. Standardized regression says only a few have much unique variance. Shapley/AOO and Johnson relative weights are the tie-breakers because they intentionally split the shared variance rather than ignoring it or assigning it all to one variable.
+
+The random forest result is flatter. That does not contradict the linear results; it reflects a different modeling goal. The forest is looking for useful classification splits, and with binary, correlated drivers, several variables can become similarly useful for partitioning the response classes. For this assignment, I would treat the random forest as a robustness check rather than the main managerial ranking.
+
+The practical recommendation is to prioritize messaging and experience improvements around **impact**, **trust**, and **service**. These are the drivers that survive the most demanding linear checks, not merely the ones with high simple correlations.
+
+## Further Reading
+
+- Sawtooth Software: [Driver Analysis: How to Do It Badly and Well](https://sawtoothsoftware.com/resources/technical-papers/driver-analysis)
+- Ulrike Groemping: [Relative Importance for Linear Regression in R: The Package relaimpo](https://www.jstatsoft.org/article/view/v017i01)
+- Econoscent: [Visual Guide to Gradient Boosted Trees (XGBoost)](https://www.youtube.com/watch?v=TyvYZ26alZs)

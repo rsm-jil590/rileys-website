@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Riley Li">
+<meta name="dcterms.date" content="2026-06-06">
+<meta name="description" content="A customer satisfaction key-driver analysis using Pearson correlations, standardized regression, drop-one usefulness, Shapley values, Johnson relative weights, and random forest Gini importance.">
+
+<title>Key Drivers Analysis: What Actually Moves Satisfaction? – Riley (Jiarui) Li</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3bd9fd8f8e76ce670d657f77156ae519.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Riley (Jiarui) Li</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#replicated-key-driver-table" id="toc-replicated-key-driver-table" class="nav-link" data-scroll-target="#replicated-key-driver-table">Replicated Key-Driver Table</a></li>
+  <li><a href="#comparing-importance-shares" id="toc-comparing-importance-shares" class="nav-link" data-scroll-target="#comparing-importance-shares">Comparing Importance Shares</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Key Drivers Analysis: What Actually Moves Satisfaction?</h1>
+<p class="subtitle lead">Variable importance across correlations, regression, Shapley values, relative weights, and random forests</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Marketing Analytics</div>
+    <div class="quarto-category">Variable Importance</div>
+    <div class="quarto-category">Regression</div>
+    <div class="quarto-category">Random Forest</div>
+    <div class="quarto-category">Shapley Values</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A customer satisfaction key-driver analysis using Pearson correlations, standardized regression, drop-one usefulness, Shapley values, Johnson relative weights, and random forest Gini importance.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Riley Li </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 6, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style>
+#TOC .collapse {
+  display: block !important;
+  height: auto !important;
+  visibility: visible !important;
+}
+
+.driver-deck {
+  --deck-ink: #2f4254;
+  --deck-gold: #bd9454;
+  --deck-cream: #fbf7f1;
+  --deck-line: #e1d4bd;
+  margin: 1.25rem 0 2.25rem 0;
+  border: 1px solid var(--deck-line);
+  border-radius: 8px;
+  background: var(--deck-cream);
+  color: var(--deck-ink);
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(47, 66, 84, 0.08);
+}
+.driver-deck::before {
+  content: "";
+  display: block;
+  height: 5px;
+  background: linear-gradient(90deg, var(--deck-ink) 0%, var(--deck-gold) 54%, var(--deck-ink) 100%);
+}
+.driver-deck.is-expanded {
+  position: fixed;
+  inset: 2vh 2vw;
+  z-index: 1050;
+  overflow: auto;
+}
+.driver-deck .deck-shell {
+  position: relative;
+  padding: 2.6rem 2rem 1.8rem;
+}
+.driver-deck .deck-expand {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--deck-line);
+  border-radius: 8px;
+  background: #fffaf2;
+  color: var(--deck-ink);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.driver-deck .deck-expand:hover {
+  background: white;
+}
+.driver-deck .deck-expand::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  background:
+    linear-gradient(currentColor 0 0) left top / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) left top / 2px 8px no-repeat,
+    linear-gradient(currentColor 0 0) right top / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) right top / 2px 8px no-repeat,
+    linear-gradient(currentColor 0 0) left bottom / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) left bottom / 2px 8px no-repeat,
+    linear-gradient(currentColor 0 0) right bottom / 8px 2px no-repeat,
+    linear-gradient(currentColor 0 0) right bottom / 2px 8px no-repeat;
+}
+.driver-deck .deck-stage {
+  min-height: 470px;
+  display: grid;
+  place-items: center;
+}
+.driver-deck .driver-slide {
+  display: none;
+  width: min(880px, 100%);
+  text-align: center;
+  animation: driverFade 0.28s ease;
+}
+.driver-deck .driver-slide.active {
+  display: block;
+}
+@keyframes driverFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.driver-deck .eyebrow {
+  color: var(--deck-gold);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.driver-deck h2 {
+  margin: 0 0 1.35rem;
+  color: var(--deck-ink);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  line-height: 1.15;
+}
+.driver-deck .slide-note {
+  color: #858585;
+  font-size: 1.02rem;
+  font-style: italic;
+  margin: 1.2rem auto 0;
+  max-width: 760px;
+}
+.rating-card {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 1.35rem 1.6rem 1.55rem;
+  border: 1px solid #ddd6cc;
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.85);
+  box-shadow: 0 6px 16px rgba(47, 66, 84, 0.05);
+}
+.rating-card .brand-name {
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+.rating-track {
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--deck-gold) 0 74%, #e5e2db 74% 100%);
+  position: relative;
+}
+.rating-track::after {
+  content: "";
+  position: absolute;
+  left: 73%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: var(--deck-gold);
+  border: 4px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.rating-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+}
+.rating-stars {
+  color: var(--deck-gold);
+  letter-spacing: 0.14em;
+  font-size: 1.7rem;
+  margin-top: 1rem;
+}
+.rating-stars span {
+  color: #e6ddd0;
+}
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  width: min(660px, 100%);
+  margin: 0 auto;
+}
+.choice-tile {
+  position: relative;
+  border: 1px solid #ddd6cc;
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.8);
+  padding: 1.25rem 0.9rem;
+  min-height: 106px;
+}
+.choice-tile strong {
+  display: block;
+  color: var(--deck-gold);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
+.choice-tile .tile-text {
+  font-family: Georgia, serif;
+  font-size: 1.22rem;
+}
+.stamp {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  transform: rotate(-10deg);
+  box-shadow: 0 8px 18px rgba(47, 66, 84, 0.16);
+}
+.stamp.best {
+  top: -30px;
+  right: -20px;
+  background: #5f8d66;
+}
+.stamp.signal {
+  bottom: -30px;
+  right: 24px;
+  background: #8b3f3f;
+}
+.method-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.method-pill {
+  border: 1px solid #ddd6cc;
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.82);
+  padding: 1rem 0.75rem;
+  min-height: 96px;
+}
+.method-pill strong {
+  display: block;
+  color: var(--deck-gold);
+  margin-bottom: 0.25rem;
+}
+.method-pill span {
+  color: #606060;
+  font-size: 0.9rem;
+}
+.driver-podium {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  align-items: end;
+  gap: 0.7rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.podium-bar {
+  border: 1px solid #ddd6cc;
+  border-radius: 8px 8px 0 0;
+  background: #fffaf2;
+  padding: 1rem 0.6rem;
+  display: grid;
+  place-items: center;
+  color: var(--deck-ink);
+  min-height: 120px;
+}
+.podium-bar.first {
+  min-height: 178px;
+  background: #f7ead5;
+}
+.podium-bar.second {
+  min-height: 150px;
+}
+.podium-bar .rank {
+  color: var(--deck-gold);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+.podium-bar .driver-name {
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+}
+.deck-progress-track {
+  height: 5px;
+  background: #e8e4dc;
+  margin: 0 auto 1.2rem;
+  max-width: 88%;
+}
+.deck-progress-fill {
+  height: 100%;
+  width: 25%;
+  background: linear-gradient(90deg, var(--deck-ink), var(--deck-gold));
+  transition: width 0.2s ease;
+}
+.driver-deck .deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.driver-deck .deck-btn {
+  border: 2px solid var(--deck-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--deck-ink);
+  min-width: 140px;
+  padding: 0.58rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.driver-deck .deck-btn.primary {
+  border-color: var(--deck-gold);
+  background: var(--deck-gold);
+  color: white;
+}
+.driver-deck .deck-btn:disabled {
+  border-color: #c9c9c9;
+  color: #b3b3b3;
+  cursor: not-allowed;
+}
+.driver-deck .deck-count {
+  color: #5f5f5f;
+  min-width: 4rem;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+}
+.driver-deck .deck-restart {
+  display: block;
+  margin: 0.85rem auto 0;
+  border: 0;
+  background: transparent;
+  color: #858585;
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (max-width: 720px) {
+  .driver-deck .deck-shell {
+    padding: 2rem 1rem 1.35rem;
+  }
+  .driver-deck .deck-stage {
+    min-height: 560px;
+  }
+  .choice-grid,
+  .method-row,
+  .driver-podium {
+    grid-template-columns: 1fr;
+  }
+  .stamp {
+    width: 54px;
+    height: 54px;
+    font-size: 0.82rem;
+  }
+  .driver-deck .deck-btn {
+    min-width: 118px;
+  }
+}
+</style>
+<div class="driver-deck" id="driver-deck">
+  <div class="deck-shell">
+    <button class="deck-expand" type="button" aria-label="Toggle expanded view" onclick="driverDeckExpand()"></button>
+    <div class="deck-stage">
+      <section class="driver-slide active">
+        <div class="eyebrow">Once upon a time</div>
+        <h2 class="anchored">The trouble with rating scales</h2>
+        <div class="rating-card">
+          <div class="brand-name">Customer Satisfaction</div>
+          <div class="rating-track"></div>
+          <div class="rating-labels"><span>1</span><span>3</span><span>5</span></div>
+          <div class="rating-stars">****<span>*</span></div>
+        </div>
+        <p class="slide-note">A rating tells us how happy people are. It does not tell us why.</p>
+      </section>
+      <section class="driver-slide">
+        <div class="eyebrow">Every brand has signals</div>
+        <h2 class="anchored">Pick apart the pattern</h2>
+        <div class="choice-grid">
+          <div class="choice-tile"><strong>TRUST</strong><div class="tile-text">Do people believe the brand?</div></div>
+          <div class="choice-tile"><strong>SERVICE</strong><div class="tile-text">Does support feel reliable?</div></div>
+          <div class="choice-tile"><strong>EASY</strong><div class="tile-text">Is the experience frictionless?</div></div>
+          <div class="choice-tile"><strong>IMPACT</strong><div class="tile-text">Does the brand feel meaningful?</div></div>
+        </div>
+        <p class="slide-note">Driver analysis connects those signals to satisfaction.</p>
+      </section>
+      <section class="driver-slide">
+        <div class="eyebrow">Six lenses</div>
+        <h2 class="anchored">Importance is not one number</h2>
+        <div class="method-row">
+          <div class="method-pill"><strong>Pearson</strong><span>simple association</span></div>
+          <div class="method-pill"><strong>Std. beta</strong><span>unique linear effect</span></div>
+          <div class="method-pill"><strong>Drop-one</strong><span>lost fit without a driver</span></div>
+          <div class="method-pill"><strong>Shapley</strong><span>average marginal R2</span></div>
+          <div class="method-pill"><strong>Johnson</strong><span>shared variance reallocated</span></div>
+          <div class="method-pill"><strong>RF Gini</strong><span>nonlinear split importance</span></div>
+        </div>
+        <p class="slide-note">When drivers overlap, the method matters.</p>
+      </section>
+      <section class="driver-slide">
+        <div class="eyebrow">The punchline</div>
+        <h2 class="anchored">Meaning, trust, and service lead</h2>
+        <div class="driver-podium">
+          <div class="podium-bar second"><div><div class="rank">2</div><div class="driver-name">Trust</div></div></div>
+          <div class="podium-bar first"><div><div class="rank">1</div><div class="driver-name">Positive impact</div></div></div>
+          <div class="podium-bar"><div><div class="rank">3</div><div class="driver-name">Good service</div></div></div>
+        </div>
+        <p class="slide-note">Read the table below for the full evidence.</p>
+      </section>
+    </div>
+    <div class="deck-progress-track"><div class="deck-progress-fill" id="driver-deck-fill"></div></div>
+    <div class="deck-controls">
+      <button class="deck-btn" type="button" id="driver-prev" onclick="driverDeckMove(-1)" disabled="">Previous</button>
+      <span class="deck-count" id="driver-count">1 / 4</span>
+      <button class="deck-btn primary" type="button" id="driver-next" onclick="driverDeckMove(1)">Next</button>
+    </div>
+    <button class="deck-restart" type="button" onclick="driverDeckRestart()">Restart</button>
+  </div>
+</div>
+<script>
+(function() {
+  var current = 0;
+  var deck = document.getElementById("driver-deck");
+  var slides = deck.querySelectorAll(".driver-slide");
+  var total = slides.length;
+  var fill = document.getElementById("driver-deck-fill");
+  var count = document.getElementById("driver-count");
+  var prev = document.getElementById("driver-prev");
+  var next = document.getElementById("driver-next");
+
+  function render() {
+    slides.forEach(function(slide, index) {
+      slide.classList.toggle("active", index === current);
+    });
+    fill.style.width = ((current + 1) / total * 100) + "%";
+    count.textContent = (current + 1) + " / " + total;
+    prev.disabled = current === 0;
+    next.disabled = current === total - 1;
+  }
+
+  window.driverDeckMove = function(delta) {
+    current = Math.max(0, Math.min(total - 1, current + delta));
+    render();
+  };
+
+  window.driverDeckRestart = function() {
+    current = 0;
+    render();
+  };
+
+  window.driverDeckExpand = function() {
+    deck.classList.toggle("is-expanded");
+  };
+})();
+</script>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The assignment asks for a key-driver table for customer satisfaction. The dataset has <strong>2553 brand-response rows</strong> across <strong>10 brands</strong>. The outcome is <code>satisfaction</code>, measured from 1 to 5, and the candidate drivers are nine binary brand perceptions: trust, build quality, difference, ease, appeal, reward, popularity, service, and impact.</p>
+<p>The central question is simple: which perceptions are most associated with higher satisfaction? The trick is that the drivers overlap. A brand that is trusted may also be seen as easy, appealing, and good at service. A useful answer therefore needs several views of variable importance, not just one correlation column.</p>
+<p>The readings sharpen that point. Sawtooth’s driver-analysis webinar frames simple correlation and plain regression as useful but incomplete: correlation gives each attribute credit for all shared variance with satisfaction, while regression gives credit only for the unique slice left after the other attributes are controlled. When survey attributes are correlated because of halo effects, both stories can be distorted. Groemping’s <em>relaimpo</em> paper gives the statistical background for relative-importance measures such as averaging over orderings, which is the same logic used by the Shapley calculation below. The tree-ensemble video is useful for interpreting the random-forest column: tree methods rank variables by how often and how effectively they improve splits, not by linear coefficients.</p>
+<p>Before ranking the drivers, I checked how much the drivers overlap:</p>
+<div id="cell-reading-diagnostics" class="cell" data-execution_count="2">
+<div id="reading-diagnostics" class="cell-output cell-output-display cell-output-markdown">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 60%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Diagnostic</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Average absolute correlation among drivers</td>
+<td style="text-align: left;">0.397</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Largest absolute driver correlation</td>
+<td style="text-align: left;">0.504 (Trust / Good service)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Condition index of driver correlation matrix</td>
+<td style="text-align: left;">3.02</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The average overlap is noticeable, but the condition index is still low. In the language of the Sawtooth reading, this is not an extreme multicollinearity case. Still, the overlap is large enough that I would not rely on correlation or raw regression alone.</p>
+<div id="cell-satisfaction-distribution" class="cell" data-fig-height="3.8" data-fig-width="7.5" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="satisfaction-distribution" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="index_files/figure-html/satisfaction-distribution-output-1.png" width="708" height="353" class="figure-img"></p>
+<figcaption>Distribution of satisfaction ratings in the survey data.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>I calculated the six requested variable-importance measures, but I interpret them in two groups. Pearson correlation and standardized regression coefficients are included because they are familiar diagnostics and part of the assignment. The final ranking leans more heavily on the methods that explicitly divide shared variance: Shapley/AOO, Johnson relative weights, and random forests.</p>
+<ul>
+<li><strong>Pearson correlation</strong>: the direct bivariate association between each driver and satisfaction. It is easy to explain, but it double-counts shared variance when drivers overlap.</li>
+<li><strong>Standardized regression coefficient</strong>: the coefficient from a linear model after standardizing both <code>satisfaction</code> and the drivers. It estimates unique linear effects, but can become unstable when unique variance is small.</li>
+<li><strong>Drop-one usefulness</strong>: the full model <span class="math inline">\(R^2\)</span> minus the <span class="math inline">\(R^2\)</span> from a model that leaves one driver out. This asks how much fit is lost if a driver disappears.</li>
+<li><strong>Shapley value / AOO</strong>: each driver’s average marginal contribution to <span class="math inline">\(R^2\)</span> across every possible ordering of the drivers. I implemented this directly by enumerating all driver subsets.</li>
+<li><strong>Johnson relative weight</strong>: a decomposition of the linear model <span class="math inline">\(R^2\)</span> that handles correlated predictors by orthogonalizing the driver matrix and then reallocating the explained variance.</li>
+<li><strong>Random forest Gini importance</strong>: mean decrease in Gini impurity from a random forest classifier that treats the 1 to 5 satisfaction score as the class label. This is a nonlinear, tree-based check rather than a linear variance decomposition.</li>
+</ul>
+<p>The complete linear model explains <strong>0.109</strong> of the variance in satisfaction. That is not a huge <span class="math inline">\(R^2\)</span>, but it is enough to compare which drivers carry the most signal.</p>
+</section>
+<section id="replicated-key-driver-table" class="level2">
+<h2 class="anchored" data-anchor-id="replicated-key-driver-table">Replicated Key-Driver Table</h2>
+<div id="cell-key-driver-table" class="cell" data-execution_count="4">
+<div id="key-driver-table" class="cell-output cell-output-display cell-output-markdown">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Driver</th>
+<th style="text-align: right;">Pearson r</th>
+<th style="text-align: right;">Std. beta</th>
+<th style="text-align: right;">Drop-one R2</th>
+<th style="text-align: right;">Shapley R2</th>
+<th style="text-align: right;">Johnson R2</th>
+<th style="text-align: right;">RF Gini</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Positive impact</td>
+<td style="text-align: right;">0.255</td>
+<td style="text-align: right;">0.128</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">0.124</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Trust</td>
+<td style="text-align: right;">0.256</td>
+<td style="text-align: right;">0.116</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0.112</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Good service</td>
+<td style="text-align: right;">0.251</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.112</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Easy to use</td>
+<td style="text-align: right;">0.213</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Appealing</td>
+<td style="text-align: right;">0.208</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.111</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Different</td>
+<td style="text-align: right;">0.185</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.099</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Well built</td>
+<td style="text-align: right;">0.192</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.116</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rewarding</td>
+<td style="text-align: right;">0.195</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.108</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Popular</td>
+<td style="text-align: right;">0.171</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.118</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The most consistent top drivers are <strong>Positive impact, Trust, and Good service</strong>. The first two methods, Pearson and standardized beta, answer slightly different questions: Pearson rewards a driver for moving with satisfaction, while standardized beta asks whether it still helps once the other drivers are already in the model. That is why variables such as <strong>Easy to use</strong> and <strong>Appealing</strong> have positive correlations but much smaller unique regression coefficients.</p>
+</section>
+<section id="comparing-importance-shares" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-importance-shares">Comparing Importance Shares</h2>
+<p>Because drop-one, Shapley, Johnson, and random forest Gini use different scales, the chart below normalizes each method to sum to 100%. This is not meant to replace the table above; it is a reading aid for comparing rankings.</p>
+<div id="cell-importance-share-plot" class="cell" data-fig-height="5.8" data-fig-width="9" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div id="importance-share-plot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="index_files/figure-html/importance-share-plot-output-1.png" width="851" height="545" class="figure-img"></p>
+<figcaption>Normalized importance shares by method. Drop-one, Shapley, and Johnson are based on linear-model fit; RF Gini comes from a random forest classifier.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>The linear methods point to a clear managerial story: satisfaction is most connected to whether the brand is seen as having a <strong>positive impact</strong>, being <strong>trustworthy</strong>, and providing <strong>good service</strong>. These three drivers take the largest Shapley and Johnson shares, which means they contribute the most to the model’s explained variance after accounting for overlap among the predictors.</p>
+<p>The reading-informed conclusion is a little sharper than simply “look at the biggest number.” Pearson correlation says many drivers move with satisfaction. Standardized regression says only a few have much unique variance. Shapley/AOO and Johnson relative weights are the tie-breakers because they intentionally split the shared variance rather than ignoring it or assigning it all to one variable.</p>
+<p>The random forest result is flatter. That does not contradict the linear results; it reflects a different modeling goal. The forest is looking for useful classification splits, and with binary, correlated drivers, several variables can become similarly useful for partitioning the response classes. For this assignment, I would treat the random forest as a robustness check rather than the main managerial ranking.</p>
+<p>The practical recommendation is to prioritize messaging and experience improvements around <strong>impact</strong>, <strong>trust</strong>, and <strong>service</strong>. These are the drivers that survive the most demanding linear checks, not merely the ones with high simple correlations.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
+<ul>
+<li>Sawtooth Software: <a href="https://sawtoothsoftware.com/resources/technical-papers/driver-analysis">Driver Analysis: How to Do It Badly and Well</a></li>
+<li>Ulrike Groemping: <a href="https://www.jstatsoft.org/article/view/v017i01">Relative Importance for Linear Regression in R: The Package relaimpo</a></li>
+<li>Econoscent: <a href="https://www.youtube.com/watch?v=TyvYZ26alZs">Visual Guide to Gradient Boosted Trees (XGBoost)</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
